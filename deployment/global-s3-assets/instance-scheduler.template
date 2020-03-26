@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "(SO0030) - %solution%, version %version%",
+    "Description": "(SO0030) - Ipf-Instance-Scheduler, version v1.0.0",
     "Parameters": {
         "SchedulingActive": {
             "Type": "String",
@@ -599,7 +599,7 @@
             "ParameterGroups": [
                 {
                     "Label": {
-                        "default": "Scheduler (version %version%)"
+                        "default": "Scheduler (version v1.0.0)"
                     },
                     "Parameters": [
                         "TagName",
@@ -796,7 +796,6 @@
                 }
             }
         },
-
         "InstanceSchedulerEncryptionKeyAlias": {
             "Type": "AWS::KMS::Alias",
             "Properties": {
@@ -806,7 +805,6 @@
                 }
             }
         },
-
         "SchedulerPolicy": {
             "Type": "AWS::IAM::Policy",
             "Metadata": {
@@ -1098,14 +1096,11 @@
                             "Effect": "Allow",
                             "Action": [
                                 "logs:DescribeLogStreams",
-
                                 "rds:DescribeDBClusters",
                                 "rds:DescribeDBInstances",
-
                                 "ec2:DescribeInstances",
                                 "ec2:DescribeRegions",
                                 "ec2:ModifyInstanceAttribute",
-
                                 "ecs:ListTasks",
                                 "ecs:ListClusters",
                                 "ecs:ListServices",
@@ -1113,14 +1108,11 @@
                                 "ecs:DescribeTasks",
                                 "ecs:DescribeClusters",
                                 "ecs:DescribeServices",
-
                                 "cloudwatch:PutMetricData",
-
                                 "ssm:GetParameter",
                                 "ssm:GetParameters",
                                 "ssm:DescribeMaintenanceWindows",
                                 "ssm:DescribeMaintenanceWindowExecutions",
-
                                 "tag:GetResources",
                                 "sts:AssumeRole"
                             ],
@@ -1283,11 +1275,11 @@
                         "Fn::Join": [
                             "-",
                             [
-                                "%bucket%"
+                                "ipf-hun-scheduler"
                             ]
                         ]
                     },
-                    "S3Key": "%solution%/%version%/instance-scheduler.zip"
+                    "S3Key": "Ipf-Instance-Scheduler/v1.0.0/instance-scheduler.zip"
                 },
                 "Handler": "main.lambda_handler",
                 "Runtime": "python3.7",
@@ -1358,7 +1350,7 @@
                                     {
                                         "Ref": "AWS::StackName"
                                     },
-                                    "%version%"
+                                    "v1.0.0"
                                 ]
                             ]
                         },
@@ -1378,7 +1370,7 @@
                     "Ref": "MemorySize"
                 },
                 "Timeout": 300,
-                "Description": "EC2 and RDS instance scheduler, version %version%"
+                "Description": "EC2 and RDS instance scheduler, version v1.0.0"
             },
             "DependsOn": [
                 "SchedulerPolicy"
@@ -1427,7 +1419,7 @@
         "SchedulerRule": {
             "Type": "AWS::Events::Rule",
             "Properties": {
-                "Description": "Instance Scheduler - Rule to trigger instance for scheduler function version %version%",
+                "Description": "Instance Scheduler - Rule to trigger instance for scheduler function version v1.0.0",
                 "ScheduleExpression": {
                     "Fn::FindInMap": [
                         "Timeouts",
@@ -1572,7 +1564,7 @@
                 "stopped_tags": {
                     "Ref": "StoppedTags"
                 },
-                "stack_version": "%version%"
+                "stack_version": "v1.0.0"
             },
             "DependsOn": [
                 "SchedulerLogGroup"

@@ -10,6 +10,7 @@ source/code/sample_events
 .vscode
 __pycache__
 
+source/code/bin
 source/code/certifi
 source/code/chardet
 source/code/idna
@@ -17,3 +18,4 @@ source/code/pytz
 source/code/requests
 source/code/urllib3
 source/code/usr
+*.dist-info/

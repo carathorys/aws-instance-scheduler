@@ -11,6 +11,7 @@
 #  and limitations under the License.                                                                                #
 ######################################################################################################################
 from schedulers.ec2_service import Ec2Service
+from schedulers.ecs_service import EcsService
 from schedulers.rds_service import RdsService
 
 INST_ALLOW_RESIZE = "allow_resize"
@@ -55,6 +56,7 @@ PARAM_CLUSTERS = "clusters"
 
 SCHEDULER_TYPES = {
     "ec2": Ec2Service,
+    "ecs": EcsService,
     "rds": RdsService
 }
 

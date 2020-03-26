@@ -16,14 +16,18 @@
 #
 #  - version-code: version of the solution
 
+
 if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
     echo "Please provide the base source bucket name, trademark approved solution name and version where the lambda code will eventually reside."
     echo "For example: ./build-s3-dist.sh solutions trademarked-solution-name v1.0.0"
     exit 1
 fi
 
-echo "make bucket=$1 solution=$2 version=$3"
+bucket=$1
+solution=$2
+version=$3
+echo "make bucket=$bucket solution=$solution version=$version"
 cd ../source/code
-make bucket=$1 solution=$2 version=$3
+make bucket=$bucket solution=$solution version=$version
 cd ../../deployment
 echo "Completed building distribution"

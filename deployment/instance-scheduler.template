@@ -16,6 +16,7 @@
             "AllowedValues": [
                 "EC2",
                 "RDS",
+                "ECS",
                 "Both"
             ],
             "Default": "EC2",
@@ -711,11 +712,14 @@
             "EC2": {
                 "Value": "ec2"
             },
+            "ECS": {
+                "Value": "ecs"
+            },
             "RDS": {
                 "Value": "rds"
             },
             "Both": {
-                "Value": "ec2,rds"
+                "Value": "ec2,ecs,rds"
             }
         },
         "Timeouts": {
@@ -761,32 +765,32 @@
                 "KeyPolicy": {
                     "Statement": [
                         {
-                        "Sid": "default",
-                        "Effect": "Allow",
-                        "Principal": {
-                            "AWS": { 
-                                "Fn::Sub": "arn:${AWS::Partition}:iam::${AWS::AccountId}:root"
-                            }
-                        },
-                        "Action": "kms:*",
-                        "Resource": "*"
+                            "Sid": "default",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": {
+                                    "Fn::Sub": "arn:${AWS::Partition}:iam::${AWS::AccountId}:root"
+                                }
+                            },
+                            "Action": "kms:*",
+                            "Resource": "*"
                         },
                         {
-                        "Sid": "Allows use of key",
-                        "Effect": "Allow",
-                        "Principal": {
-                            "AWS": {
-                                "Fn::GetAtt": [
-                                    "SchedulerRole",
-                                    "Arn"
-                                ]
-                            }
-                        },
-                        "Action": [
-                            "kms:GenerateDataKey*",
-                            "kms:Decrypt"
-                        ],
-                        "Resource": "*"
+                            "Sid": "Allows use of key",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": {
+                                    "Fn::GetAtt": [
+                                        "SchedulerRole",
+                                        "Arn"
+                                    ]
+                                }
+                            },
+                            "Action": [
+                                "kms:GenerateDataKey*",
+                                "kms:Decrypt"
+                            ],
+                            "Resource": "*"
                         }
                     ]
                 }
@@ -908,6 +912,32 @@
                                             "Ref": "AWS::AccountId"
                                         },
                                         "db:*"
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "ecs:TagResource",
+                                "ecs:UntagResource",
+                                "ecs:DescribeTasks",
+                                "ecs:DescribeClusters",
+                                "ecs:DescribeServices",
+                                "ecs:UpdateTask",
+                                "ecs:UpdateService",
+                                "ecs:StopTask",
+                                "ecs:StartTask"
+                            ],
+                            "Resource": {
+                                "Fn::Join": [
+                                    ":",
+                                    [
+                                        "arn:aws:ecs:*",
+                                        {
+                                            "Ref": "AWS::AccountId"
+                                        },
+                                        "*"
                                     ]
                                 ]
                             }
@@ -1076,6 +1106,14 @@
                                 "ec2:DescribeRegions",
                                 "ec2:ModifyInstanceAttribute",
 
+                                "ecs:ListTasks",
+                                "ecs:ListClusters",
+                                "ecs:ListServices",
+                                "ecs:ListTagsForResource",
+                                "ecs:DescribeTasks",
+                                "ecs:DescribeClusters",
+                                "ecs:DescribeServices",
+
                                 "cloudwatch:PutMetricData",
 
                                 "ssm:GetParameter",
@@ -1225,7 +1263,6 @@
                             "id": "W58",
                             "reason": "All policies have been scoped to be as restrictive as possible. This lambda function has access to write logs."
                         }
-
                     ]
                 }
             },
@@ -1268,8 +1305,8 @@
                         "CONFIG_TABLE": {
                             "Ref": "ConfigTable"
                         },
-                        "SCHEDULER_FREQUENCY" : {
-                            "Ref" : "SchedulerFrequency"
+                        "SCHEDULER_FREQUENCY": {
+                            "Ref": "SchedulerFrequency"
                         },
                         "TAG_NAME": {
                             "Ref": "TagName"

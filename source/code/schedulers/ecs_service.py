@@ -195,8 +195,9 @@ class EcsService:
             running_tasks += service['runningCount']
             pending_tasks += service['pendingCount']
             desired_tasks += service['desiredCount']
+            tags.get(service['serviceArn'])
             services[service['serviceArn']] = {'currentDesiredCount': service['desiredCount'],
-                                               'savedDesiredCount': int(tags[service['serviceArn']])
+                                               'savedDesiredCount': int(tags[service['serviceArn']]) if tags.get(service['serviceArn']) is not None and tags.get(service['serviceArn']) != '' else 0
                                                }
             saved_desired_tasks += services[service['serviceArn']]['savedDesiredCount']
 

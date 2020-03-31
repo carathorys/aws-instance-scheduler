@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "(SO0030) - Ipf-Instance-Scheduler, version v1.0.0",
+    "Description": "(SO0030) - Ipf-Instance-Scheduler, version v1.0.1",
     "Parameters": {
         "SchedulingActive": {
             "Type": "String",
@@ -599,7 +599,7 @@
             "ParameterGroups": [
                 {
                     "Label": {
-                        "default": "Scheduler (version v1.0.0)"
+                        "default": "Scheduler (version v1.0.1)"
                     },
                     "Parameters": [
                         "TagName",
@@ -1279,7 +1279,7 @@
                             ]
                         ]
                     },
-                    "S3Key": "Ipf-Instance-Scheduler/v1.0.0/instance-scheduler.zip"
+                    "S3Key": "Ipf-Instance-Scheduler/v1.0.1/instance-scheduler.zip"
                 },
                 "Handler": "main.lambda_handler",
                 "Runtime": "python3.7",
@@ -1350,7 +1350,7 @@
                                     {
                                         "Ref": "AWS::StackName"
                                     },
-                                    "v1.0.0"
+                                    "v1.0.1"
                                 ]
                             ]
                         },
@@ -1370,7 +1370,7 @@
                     "Ref": "MemorySize"
                 },
                 "Timeout": 300,
-                "Description": "EC2 and RDS instance scheduler, version v1.0.0"
+                "Description": "EC2 and RDS instance scheduler, version v1.0.1"
             },
             "DependsOn": [
                 "SchedulerPolicy"
@@ -1419,7 +1419,7 @@
         "SchedulerRule": {
             "Type": "AWS::Events::Rule",
             "Properties": {
-                "Description": "Instance Scheduler - Rule to trigger instance for scheduler function version v1.0.0",
+                "Description": "Instance Scheduler - Rule to trigger instance for scheduler function version v1.0.1",
                 "ScheduleExpression": {
                     "Fn::FindInMap": [
                         "Timeouts",
@@ -1564,7 +1564,7 @@
                 "stopped_tags": {
                     "Ref": "StoppedTags"
                 },
-                "stack_version": "v1.0.0"
+                "stack_version": "v1.0.1"
             },
             "DependsOn": [
                 "SchedulerLogGroup"
